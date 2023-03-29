@@ -8,7 +8,7 @@ import { hash } from 'bcrypt';
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<any> {
     const isUserCreated = await this.userRepository.findByEmail(
       createUserDto.email,
     );
