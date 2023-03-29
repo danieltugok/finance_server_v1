@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -14,6 +15,7 @@ model User {
   id         String      @id @default(uuid())
   email      String      @unique
   name       String?
+  password   String
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   preference Preference?
@@ -25,8 +27,8 @@ model User {
 model Dashboard {
   id         String      @id @default(uuid())
   name       String
-  userId     String
-  user       User        @relation(fields: [userId], references: [id])
+  user_id    String      @unique
+  user       User        @relation(fields: [user_id], references: [id])
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   preference Preference?
@@ -40,7 +42,7 @@ model Preference {
   user_id              String    @unique
   user                 User      @relation(fields: [user_id], references: [id])
   dashboard_default_id String    @unique
-  dashboard_default    Dashboard @relation(fields: [dashboard_default_id], references: [id])
+  dashboard            Dashboard @relation(fields: [dashboard_default_id], references: [id])
   language             String    @default("en")
   isDark               Boolean   @default(false)
   createdAt            DateTime  @default(now())
