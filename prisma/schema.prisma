@@ -9,3 +9,89 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id         String      @id @default(uuid())
+  email      String      @unique
+  name       String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  preference Preference?
+  dashboard  Dashboard[]
+
+  @@map("users")
+}
+
+model Dashboard {
+  id         String      @id @default(uuid())
+  name       String
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  preference Preference?
+  GridItem   GridItem[]
+
+  @@map("dashboards")
+}
+
+model Preference {
+  id                   String    @id @default(uuid())
+  user_id              String    @unique
+  user                 User      @relation(fields: [user_id], references: [id])
+  dashboard_default_id String    @unique
+  dashboard_default    Dashboard @relation(fields: [dashboard_default_id], references: [id])
+  language             String    @default("en")
+  isDark               Boolean   @default(false)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@map("preferences")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  icon      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  widget    Widget[]
+
+  @@map("categories")
+}
+
+model Widget {
+  id          String     @id @default(uuid())
+  name        String
+  description String?
+  icon        String?
+  category_id String
+  category    Category   @relation(fields: [category_id], references: [id])
+  component   String
+  min_width   Int
+  min_height  Int
+  max_width   Int
+  max_height  Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  GridItem    GridItem[]
+
+  @@map("widgets")
+}
+
+model GridItem {
+  id           String    @id @default(uuid())
+  axis_x       Int
+  axis_y       Int
+  width        Int
+  height       Int
+  content      String
+  dashboard_id String
+  dashboard    Dashboard @relation(fields: [dashboard_id], references: [id])
+  widget_id    String
+  widget       Widget    @relation(fields: [widget_id], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("grid_items")
+}
