@@ -27,8 +27,15 @@ export class UserService {
     return this.userRepository.findByEmail(email);
   }
 
-  findById(id: string): Promise<any> {
-    return this.userRepository.findById(id);
+  async findById(id: string): Promise<any> {
+    const user = await this.userRepository.findById(id);
+    if (!user) throw new NotFoundException('User not found');
+    user.preference['dashboard'] = user.dashboard.find(
+      (item) => item.id === user.preference.dashboard_default_id,
+    );
+    delete user.dashboard;
+    delete user.preference.dashboard_default_id;
+    return user;
   }
 
   findOne(id: number) {

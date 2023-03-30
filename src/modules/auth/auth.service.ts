@@ -19,10 +19,28 @@ export class AuthService {
     return user;
   }
 
-  async logIn(user: any) {
-    const payload = { sub: user.id };
+  private async getTokens(
+    user_id: string,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
+    const payload = { sub: user_id };
+    const accessToken = await this.jwtService.signAsync(payload);
+    const refreshToken = await this.jwtService.signAsync(
+      { ...payload, type: 'refresh' },
+      { expiresIn: '7d' },
+    );
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      accessToken,
+      refreshToken,
     };
+  }
+
+  async logIn(user: any) {
+    return this.getTokens(user.id);
+  }
+
+  async refreshToken(refresh_token: string) {
+    const { sub, type } = await this.jwtService.verifyAsync(refresh_token);
+    if (type !== 'refresh') throw new Error('Invalid token');
+    return this.getTokens(sub);
   }
 }

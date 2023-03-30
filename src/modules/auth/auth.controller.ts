@@ -29,14 +29,30 @@ export class AuthController {
   @Head('login')
   @HttpCode(204)
   async basicLogin(@Request() req: any, @Response() res: any) {
-    const { access_token } = await this.authService.logIn(req.user);
-    res.set('X-Access-Token', access_token);
+    const { accessToken, refreshToken } = await this.authService.logIn(
+      req.user,
+    );
+    res.set('X-Access-Token', accessToken);
+    res.set('X-Refresh-Token', refreshToken);
     return res.send();
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get('profile')
   async getProfile(@Request() req: any) {
+    console.log(req.user.id);
     return this.userService.findById(req.user.id);
+  }
+
+  @Head('refresh')
+  @HttpCode(204)
+  async refreshToken(@Request() req: any, @Response() res: any) {
+    const token = req.headers['authorization'].split(' ')[1];
+    const { accessToken, refreshToken } = await this.authService.refreshToken(
+      token,
+    );
+    res.set('X-Access-Token', accessToken);
+    res.set('X-Refresh-Token', refreshToken);
+    return res.send();
   }
 }
