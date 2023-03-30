@@ -35,16 +35,34 @@ export class UserRepository {
 		}
   }
 
-	async findByEmail(email: string) {
-		return await this.prisma.user.findUnique({
+  async findByEmail(email: string) {
+    return await this.prisma.user.findUnique({
 			where: { email },
+		});
+	}
+
+  async findById(id: string) {
+    return await this.prisma.user.findUnique({
+			where: { id },
+			select: {
+				id: true,
+				name: true,
+				email: true,
+				preference: {
+					select: {
+						dashboard_default_id: true,
+						language: true,
+						isDark: true,
+					},
+				},
+			}
 		});
 	}
 
 	async findAll() {
 		return await this.prisma.user.findMany({
 			select: {
-				id: true,
+        id: true,
 				name: true,
 				email: true,
 				createdAt: true,

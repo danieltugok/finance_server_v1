@@ -23,6 +23,14 @@ export class UserService {
     return this.userRepository.findAll();
   }
 
+  findByEmail(email: string): Promise<any> {
+    return this.userRepository.findByEmail(email);
+  }
+
+  findById(id: string): Promise<any> {
+    return this.userRepository.findById(id);
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }
