@@ -8,6 +8,7 @@ import { UserService } from '../user/user.service';
 import { UserRepository } from '../user/user.repository';
 import { JwtModule } from '@nestjs/jwt/dist';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { BasicStrategy } from './strategies/basic.strategy';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   providers: [
     AuthService,
     LocalStrategy,
+    BasicStrategy,
     PrismaService,
     UserService,
     UserRepository,
