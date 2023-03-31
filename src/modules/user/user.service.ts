@@ -9,10 +9,10 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async create(createUserDto: CreateUserDto): Promise<any> {
-    const isUserCreated = await this.userRepository.findByEmail(
-      createUserDto.email,
-    );
-    if (isUserCreated) throw new NotFoundException('User already exists');
+    // const isUserCreated = await this.userRepository.findByEmail(
+    //   createUserDto.email,
+    // );
+    // if (isUserCreated) throw new NotFoundException('User already exists');
     return this.userRepository.create({
       ...createUserDto,
       password: await hash(createUserDto.password, 10),
