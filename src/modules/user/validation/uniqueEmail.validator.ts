@@ -18,7 +18,7 @@ export class UniqueEmailValidator implements ValidatorConstraintInterface {
     validationArguments?: ValidationArguments,
   ): Promise<boolean> {
     const user = await this.userRepository.findByEmail(email);
-    if (user) return false;
+    return user ? false : true;
   }
 
   //   defaultMessage?(validationArguments?: ValidationArguments): string {

@@ -7,7 +7,6 @@ export class UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
-    console.log(createUserDto);
     try {
       return await this.prisma.$transaction(async (tx: any) => {
         const user = await tx.user.create({
