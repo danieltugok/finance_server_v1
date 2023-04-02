@@ -29,8 +29,14 @@ export class DashboardController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  findAll(@Request() req: any) {
+  findByUser(@Request() req: any) {
     return this.dashboardService.findByUser(req.user.id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':id')
+  findById(@Param('id') id: string) {
+    return this.dashboardService.findById(id);
   }
 
   @Patch(':id')

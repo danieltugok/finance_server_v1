@@ -16,6 +16,21 @@ export class DashboardRepository {
   async findByUser(user_id: string) {
     return await this.prisma.dashboard.findMany({
       where: { user_id },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+  }
+
+  async findById(id: string) {
+    return await this.prisma.dashboard.findMany({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        grid_items: true,
+      },
     });
   }
 

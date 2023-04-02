@@ -34,7 +34,7 @@ model Dashboard {
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   preference Preference?
-  GridItem   GridItem[]
+  grid_items GridItem[]
 
   @@map("dashboards")
 }
@@ -78,7 +78,7 @@ model Widget {
   max_height  Int
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  GridItem    GridItem[]
+  grid_items  GridItem[]
 
   @@map("widgets")
 }

@@ -14,6 +14,10 @@ export class DashboardService {
     return this.dashboardRepository.findByUser(id);
   }
 
+  findById(id: string) {
+    return this.dashboardRepository.findById(id);
+  }
+
   update(id: string, updateDashboardDto: UpdateDashboardDto) {
     return this.dashboardRepository.update(id, updateDashboardDto);
   }
