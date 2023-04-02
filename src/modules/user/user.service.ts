@@ -42,11 +42,23 @@ export class UserService {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.userRepository.findById(id);
+    if (!user) throw new NotFoundException('User not found');
+
+    return await this.userRepository.update(id, {
+      ...updateUserDto,
+      password: updateUserDto.password
+        ? await hash(updateUserDto.password, 10)
+        : undefined,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    return await this.userRepository.remove(id);
+  }
+
+  async active(id: string) {
+    return await this.userRepository.active(id);
   }
 }

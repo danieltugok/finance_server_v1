@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -25,6 +26,7 @@ export class UserRepository {
           data: { user_id: user.id, dashboard_default_id: dashboard.id },
         });
 
+        delete user.password;
         return user;
       });
     } catch (error) {
@@ -70,6 +72,8 @@ export class UserRepository {
         email: true,
         createdAt: true,
         updatedAt: true,
+        deletedAt: true,
+        activetedAt: true,
         preference: {
           select: {
             dashboard_default_id: true,
@@ -84,6 +88,35 @@ export class UserRepository {
           },
         },
       },
+    });
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.findById(id);
+
+    if (!user) throw new NotFoundException('User not found');
+
+    return await this.prisma.user.update({
+      where: { id },
+      data: {
+        name: updateUserDto.name || undefined,
+        email: updateUserDto.email || undefined,
+        password: updateUserDto.password || undefined,
+      },
+    });
+  }
+
+  async remove(id: string) {
+    return await this.prisma.user.update({
+      where: { id },
+      data: { deletedAt: new Date().toISOString() },
+    });
+  }
+
+  async active(id: string) {
+    return await this.prisma.user.update({
+      where: { id },
+      data: { activetedAt: new Date().toISOString() },
     });
   }
 }

@@ -32,11 +32,20 @@ export class UserController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+    return this.userService.remove(id);
+  }
+
+  @Patch('activate/:id')
+  active(@Param('id') id: string) {
+    console.log(
+      '🚀 ~ file: user.controller.ts:45 ~ UserController ~ active ~ id:',
+      id,
+    );
+    return this.userService.active(id);
   }
 }
