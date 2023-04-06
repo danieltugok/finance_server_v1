@@ -10,17 +10,31 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserEntity } from './entities/user.entity';
 
 @Controller('api/v1/users')
+@ApiTags('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @ApiResponse({
+    status: 200,
+    description: 'Get all users.',
+    type: CreateUserDto,
+  })
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'Get all users.',
+    type: UserEntity,
+    isArray: true,
+  })
   findAll() {
     return this.userService.findAll();
   }
