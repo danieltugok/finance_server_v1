@@ -58,6 +58,10 @@ export class UserRepository {
           select: {
             id: true,
             name: true,
+            row: true,
+            column: true,
+            margin: true,
+            grid_items: true,
           },
         },
       },

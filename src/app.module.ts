@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { GridItemModule } from './modules/grid-item/grid-item.module';
+import { WidgetModule } from './modules/widget/widget.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { GridItemModule } from './modules/grid-item/grid-item.module';
     AuthModule,
     DashboardModule,
     GridItemModule,
+    WidgetModule,
   ],
   controllers: [AppController],
   providers: [AppService],

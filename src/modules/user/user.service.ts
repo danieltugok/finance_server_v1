@@ -13,10 +13,11 @@ export class UserService {
     //   createUserDto.email,
     // );
     // if (isUserCreated) throw new NotFoundException('User already exists');
-    return this.userRepository.create({
+    const user = this.userRepository.create({
       ...createUserDto,
       password: await hash(createUserDto.password, 10),
     });
+    if (user) return { message: 'User created successfully' };
   }
 
   findAll() {

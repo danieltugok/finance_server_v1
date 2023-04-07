@@ -24,11 +24,14 @@ export class DashboardRepository {
   }
 
   async findById(id: string) {
-    return await this.prisma.dashboard.findMany({
+    return await this.prisma.dashboard.findUnique({
       where: { id },
       select: {
         id: true,
         name: true,
+        row: true,
+        column: true,
+        margin: true,
         grid_items: true,
       },
     });

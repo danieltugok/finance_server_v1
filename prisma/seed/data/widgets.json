@@ -1,0 +1,51 @@
+
+[
+    {
+        "name": "Bar Chart",
+        "description": "Bar Chart",
+        "icon": "bar_chart",
+        "component": "BarChart",
+        "min_width": 3,
+        "min_height": 3
+    },
+    {
+        "name": "Dougnut Chart",
+        "description": "Dougnut Chart",
+        "icon": "data_usage",
+        "component": "DoughnutChart",
+        "min_width": 3,
+        "min_height": 3
+    },
+    {
+        "name": "Line Chart",
+        "description": "Line Chart",
+        "icon": "ssid_chart",
+        "component": "LineChart",
+        "min_width": 3,
+        "min_height": 3
+    },
+    {
+        "name": "Pie Chart",
+        "description": "Pie Chart",
+        "icon": "pie_chart",
+        "component": "PieChart",
+        "min_width": 3,
+        "min_height": 3
+    },
+    {
+        "name": "Radar Chart",
+        "description": "Radar Chart",
+        "icon": "radar",
+        "component": "RadarChart",
+        "min_width": 3,
+        "min_height": 3
+    },
+    {
+        "name": "Polar Chart",
+        "description": "Polar Chart",
+        "icon": "donut_small",
+        "component": "PolarChart",
+        "min_width": 3,
+        "min_height": 3
+    }
+]

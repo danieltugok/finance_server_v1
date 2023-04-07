@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class CreateDashboardDto {
   @IsString()
@@ -8,4 +14,16 @@ export class CreateDashboardDto {
   @IsUUID()
   @IsOptional()
   user_id: string;
+
+  @IsNumber()
+  @IsOptional()
+  row?: number;
+
+  @IsNumber()
+  @IsOptional()
+  column?: number;
+
+  @IsNumber()
+  @IsOptional()
+  margin?: number;
 }

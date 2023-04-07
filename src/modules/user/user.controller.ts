@@ -20,7 +20,7 @@ export class UserController {
 
   @Post()
   @ApiResponse({
-    status: 200,
+    status: 201,
     description: 'Get all users.',
     type: CreateUserDto,
   })
@@ -56,10 +56,6 @@ export class UserController {
 
   @Patch('activate/:id')
   active(@Param('id') id: string) {
-    console.log(
-      '🚀 ~ file: user.controller.ts:45 ~ UserController ~ active ~ id:',
-      id,
-    );
     return this.userService.active(id);
   }
 }

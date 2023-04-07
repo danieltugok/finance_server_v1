@@ -16,6 +16,7 @@ model User {
   email       String      @unique
   name        String?
   password    String
+  isAdmin     Boolean     @default(false)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   deletedAt   DateTime?
@@ -29,12 +30,15 @@ model User {
 model Dashboard {
   id         String      @id @default(uuid())
   name       String
+  column     Int         @default(12)
+  row        Int         @default(12)
+  margin     Int         @default(10)
   user_id    String
   user       User        @relation(fields: [user_id], references: [id])
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
   preference Preference?
   grid_items GridItem[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 
   @@map("dashboards")
 }
@@ -53,7 +57,7 @@ model Preference {
   @@map("preferences")
 }
 
-model Category {
+model WidgetCategory {
   id        String   @id @default(uuid())
   name      String
   icon      String?
@@ -61,24 +65,24 @@ model Category {
   updatedAt DateTime @updatedAt
   widget    Widget[]
 
-  @@map("categories")
+  @@map("widget_categories")
 }
 
 model Widget {
-  id          String     @id @default(uuid())
-  name        String
-  description String?
-  icon        String?
-  category_id String
-  category    Category   @relation(fields: [category_id], references: [id])
-  component   String
-  min_width   Int
-  min_height  Int
-  max_width   Int
-  max_height  Int
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  grid_items  GridItem[]
+  id                 String          @id @default(uuid())
+  name               String
+  description        String?
+  icon               String          @default("info")
+  widget_category_id String?
+  widget_category    WidgetCategory? @relation(fields: [widget_category_id], references: [id])
+  component          String
+  min_width          Int             @default(1)
+  min_height         Int             @default(1)
+  max_width          Int             @default(12)
+  max_height         Int             @default(8)
+  grid_items         GridItem[]
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
 
   @@map("widgets")
 }
