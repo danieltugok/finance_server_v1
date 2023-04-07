@@ -19,12 +19,14 @@ export class AuthController {
     private readonly userService: UserService,
   ) {}
 
+  // Get file from file ./src/modules/auth/strategies/local.strategy.ts
   @UseGuards(AuthGuard('local'))
   @Post('login')
   async login(@Request() req: any) {
     return this.authService.logIn(req.user);
   }
 
+  // Get file from file ./src/modules/auth/strategies/basic.strategy.ts
   @UseGuards(AuthGuard('basic'))
   @Head('login')
   @HttpCode(204)
@@ -37,10 +39,10 @@ export class AuthController {
     return res.send();
   }
 
+  // Get file from file ./src/modules/auth/strategies/jwt.strategy.ts
   @UseGuards(AuthGuard('jwt'))
   @Get('profile')
   async getProfile(@Request() req: any) {
-    console.log(req.user.id);
     return this.userService.findById(req.user.id);
   }
 
