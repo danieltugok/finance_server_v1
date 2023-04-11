@@ -1,14 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { DashboardService } from './dashboard.service';
 import { CreateDashboardDto } from './dto/create-dashboard.dto';
@@ -40,23 +30,14 @@ export class DashboardController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateDashboardDto: UpdateDashboardDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateDashboardDto: UpdateDashboardDto) {
     return this.dashboardService.update(id, updateDashboardDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Patch(':dashboard_id/default')
-  updateDashboardDefault(
-    @Request() req: any,
-    @Param('dashboard_id') dashboard_id: string,
-  ) {
-    return this.dashboardService.updateDashboardDefault(
-      req.user.id,
-      dashboard_id,
-    );
+  updateDashboardDefault(@Request() req: any, @Param('dashboard_id') dashboard_id: string) {
+    return this.dashboardService.updateDashboardDefault(req.user.id, dashboard_id);
   }
 
   @UseGuards(AuthGuard('jwt'))

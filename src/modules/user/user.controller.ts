@@ -1,17 +1,11 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
+import { QueryUserDto } from './dto/query-user.dto';
+import { UserPaginationEntity } from './entities/user.pagination.entity';
 
 @Controller('api/v1/users')
 @ApiTags('users')
@@ -24,8 +18,8 @@ export class UserController {
     description: 'Get all users.',
     type: CreateUserDto,
   })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
+    return await this.userService.create(createUserDto);
   }
 
   @Get()
@@ -35,27 +29,27 @@ export class UserController {
     type: UserEntity,
     isArray: true,
   })
-  findAll() {
-    return this.userService.findAll();
+  async findAll(@Query() query: QueryUserDto): Promise<UserEntity | UserPaginationEntity[]> {
+    return await this.userService.findAll(query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findById(id);
+  async findOne(@Param('id') id: string): Promise<UserEntity> {
+    return await this.userService.findById(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<UserEntity> {
+    return await this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(id);
+  async remove(@Param('id') id: string): Promise<UserEntity> {
+    return await this.userService.remove(id);
   }
 
   @Patch('activate/:id')
-  active(@Param('id') id: string) {
-    return this.userService.active(id);
+  async active(@Param('id') id: string): Promise<UserEntity> {
+    return await this.userService.active(id);
   }
 }

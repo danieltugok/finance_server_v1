@@ -3,6 +3,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './user.repository';
 import { hash } from 'bcrypt';
+import { QueryUserDto } from './dto/query-user.dto';
+import { UserEntity } from './entities/user.entity';
+import { UserPaginationEntity } from './entities/user.pagination.entity';
 
 @Injectable()
 export class UserService {
@@ -20,20 +23,19 @@ export class UserService {
     if (user) return { message: 'User created successfully' };
   }
 
-  findAll() {
-    return this.userRepository.findAll();
+  async findAll(query: QueryUserDto): Promise<UserEntity | UserPaginationEntity[]> {
+    if (query.paginator) return await this.userRepository.findAllPaginator(query);
+    return await this.userRepository.findAll(query);
   }
 
-  findByEmail(email: string): Promise<any> {
+  findByEmail(email: string): Promise<UserEntity> {
     return this.userRepository.findByEmail(email);
   }
 
-  async findById(id: string): Promise<any> {
+  async findById(id: string): Promise<UserEntity> {
     const user = await this.userRepository.findById(id);
     if (!user) throw new NotFoundException('User not found');
-    user.preference['dashboard'] = user.dashboard.find(
-      (item) => item.id === user.preference.dashboard_default_id,
-    );
+    user.preference['dashboard'] = user.dashboard.find((item) => item.id === user.preference.dashboard_default_id);
     delete user.dashboard;
     delete user.preference.dashboard_default_id;
     return user;
@@ -49,9 +51,7 @@ export class UserService {
 
     return await this.userRepository.update(id, {
       ...updateUserDto,
-      password: updateUserDto.password
-        ? await hash(updateUserDto.password, 10)
-        : undefined,
+      password: updateUserDto.password ? await hash(updateUserDto.password, 10) : undefined,
     });
   }
 

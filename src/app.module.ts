@@ -9,14 +9,7 @@ import { GridItemModule } from './modules/grid-item/grid-item.module';
 import { WidgetModule } from './modules/widget/widget.module';
 
 @Module({
-  imports: [
-    UserModule,
-    ConfigModule.forRoot(),
-    AuthModule,
-    DashboardModule,
-    GridItemModule,
-    WidgetModule,
-  ],
+  imports: [UserModule, ConfigModule.forRoot(), AuthModule, DashboardModule, GridItemModule, WidgetModule],
   controllers: [AppController],
   providers: [AppService],
 })

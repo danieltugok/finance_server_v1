@@ -37,20 +37,14 @@ export class DashboardRepository {
     });
   }
 
-  async updateDashboardDefault(
-    user_id: string,
-    dashboard_id: string,
-  ): Promise<any> {
+  async updateDashboardDefault(user_id: string, dashboard_id: string): Promise<any> {
     return await this.prisma.preference.updateMany({
       where: { user_id },
       data: { dashboard_default_id: dashboard_id },
     });
   }
 
-  async update(
-    id: string,
-    updateDashboardDto: UpdateDashboardDto,
-  ): Promise<any> {
+  async update(id: string, updateDashboardDto: UpdateDashboardDto): Promise<any> {
     return await this.prisma.dashboard.update({
       where: { id },
       data: updateDashboardDto,

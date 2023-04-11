@@ -19,14 +19,6 @@ import { BasicStrategy } from './strategies/basic.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    BasicStrategy,
-    PrismaService,
-    UserService,
-    UserRepository,
-    JwtStrategy,
-  ],
+  providers: [AuthService, LocalStrategy, BasicStrategy, PrismaService, UserService, UserRepository, JwtStrategy],
 })
 export class AuthModule {}
