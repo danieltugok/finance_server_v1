@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './user.repository';
 import { hash } from 'bcrypt';
+import { UpdatePreferenceDto } from './dto/update-preference.dto';
 
 @Injectable()
 export class UserService {
@@ -61,5 +62,15 @@ export class UserService {
 
   async active(id: string) {
     return await this.userRepository.active(id);
+  }
+
+  async updatePreference(
+    user_id: string,
+    updatePreferenceDto: UpdatePreferenceDto,
+  ) {
+    return await this.userRepository.updatePreference(
+      user_id,
+      updatePreferenceDto,
+    );
   }
 }

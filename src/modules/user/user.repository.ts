@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdatePreferenceDto } from './dto/update-preference.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
@@ -122,5 +123,14 @@ export class UserRepository {
       where: { id },
       data: { activetedAt: new Date().toISOString() },
     });
+  }
+
+  async updatePreference(user_id: string, data: UpdatePreferenceDto) {
+    console.log(data);
+    await this.prisma.preference.update({
+      where: { user_id },
+      data: { ...data.preference },
+    });
+    return await this.findById(user_id);
   }
 }
