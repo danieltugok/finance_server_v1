@@ -23,10 +23,7 @@ export class DashboardService {
   }
 
   updateDashboardDefault(user_id: string, dashboard_id: string) {
-    return this.dashboardRepository.updateDashboardDefault(
-      user_id,
-      dashboard_id,
-    );
+    return this.dashboardRepository.updateDashboardDefault(user_id, dashboard_id);
   }
 
   remove(id: string) {

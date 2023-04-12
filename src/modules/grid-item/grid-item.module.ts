@@ -4,6 +4,6 @@ import { GridItemController } from './grid-item.controller';
 
 @Module({
   controllers: [GridItemController],
-  providers: [GridItemService]
+  providers: [GridItemService],
 })
 export class GridItemModule {}

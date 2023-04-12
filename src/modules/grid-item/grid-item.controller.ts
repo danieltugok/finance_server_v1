@@ -1,14 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { GridItemService } from './grid-item.service';
 import { CreateGridItemDto } from './dto/create-grid-item.dto';
 import { UpdateGridItemDto } from './dto/update-grid-item.dto';
@@ -26,10 +16,7 @@ export class GridItemController {
 
   @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateGridItemDto: UpdateGridItemDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateGridItemDto: UpdateGridItemDto) {
     return this.gridItemService.update(+id, updateGridItemDto);
   }
 

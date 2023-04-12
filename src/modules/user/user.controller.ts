@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,6 +17,8 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { UpdatePreferenceDto } from './dto/update-preference.dto';
+import { QueryUserDto } from './dto/query-user.dto';
+import { UserPaginationEntity } from './entities/user.pagination.entity';
 
 @Controller('api/v1/users')
 @ApiTags('users')
@@ -28,8 +31,8 @@ export class UserController {
     description: 'Create user.',
     type: CreateUserDto,
   })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
+    return await this.userService.create(createUserDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -40,32 +43,37 @@ export class UserController {
     type: UserEntity,
     isArray: true,
   })
-  findAll() {
-    return this.userService.findAll();
+  async findAll(
+    @Query() query: QueryUserDto,
+  ): Promise<UserEntity | UserPaginationEntity[]> {
+    return await this.userService.findAll(query);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findById(id);
+  async findOne(@Param('id') id: string): Promise<UserEntity> {
+    return await this.userService.findById(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Patch()
-  update(@Request() req: any, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(req.user.id, updateUserDto);
+  async update(
+    @Request() req: any,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<UserEntity> {
+    return await this.userService.update(req.user.id, updateUserDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(id);
+  async remove(@Param('id') id: string): Promise<UserEntity> {
+    return await this.userService.remove(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Patch('activate/:id')
-  active(@Param('id') id: string) {
-    return this.userService.active(id);
+  async active(@Param('id') id: string): Promise<UserEntity> {
+    return await this.userService.active(id);
   }
 
   @UseGuards(AuthGuard('jwt'))
